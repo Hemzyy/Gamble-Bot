@@ -1,1 +1,1 @@
-{'Temp': 50, 'Hemzyy#6739': 50, 'Raviolonely#3073': 0}
+{'Temp': 50}
