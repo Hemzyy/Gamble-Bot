@@ -7,13 +7,21 @@ client = discord.Client() #connection to discord
 @client.event #register an event
 async def on_ready():
     print("Gamble Bot is online!")
-    await client.change_presence(activity=discord.Game(name="Made by Hemzyy. prefix is '$'"))
+    await client.change_presence(activity=discord.Game(name="Made by Hemzyy. '$help'"))
 
 
 @client.event #second event 
 async def on_message(message):
     if message.author == client.user:
         return
+
+    if message.content == ('$help'):
+        await message.channel.send("Type '$balance' to check your balance\nType '$bet [amount] [h or t]' to bet\ntype '$rewards' to see rewards available to redeem")
+
+    if message.content == ('$rewards'):
+        with open('rewards.txt') as f:
+            file = f.read()
+        await message.channel.send(file)
 
     if message.content.startswith('$bet'): #Basically the whole point of this bot
         msg = message.content.split(' ', 2)
@@ -54,4 +62,4 @@ async def on_message(message):
     '''
 
 
-client.run(TOKEN)
+client.run('ODAwODMyNjgwMjQ5OTE3NDYy.YAX3jQ.PUOA27rYj_7pq0VwVi1GQddVu84')
