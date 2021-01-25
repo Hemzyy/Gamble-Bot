@@ -1,6 +1,7 @@
 import discord, os
 from discord.ext import commands
 from gameFunctions import *
+import math
 
 client = discord.Client() #connection to discord
 
@@ -22,6 +23,7 @@ async def on_message(message):
         with open('rewards.txt') as f:
             file = f.read()
         await message.channel.send(file)
+        
 
     if message.content.startswith('$bet'): #Basically the whole point of this bot
         msg = message.content.split(' ', 2)
@@ -33,13 +35,15 @@ async def on_message(message):
             addPlayer(str(sender))
             await message.channel.send('You have been added to the players list with a balance of 50 points.')
         else:
-            if (enoughBalance(str(sender), int(arg))):
-                removePoints(str(sender), int(arg))
+            if arg == '0' : await message.channel.send('You can\'t bet nothing dumbass')
+            elif arg < '0': await message.channel.send('That\'s illegal')
+            elif (enoughBalance(str(sender), abs(int(arg)))):
+                removePoints(str(sender), abs(int(arg)))
                 if isEqual(str(prediction)):
-                    addPoints(str(sender), int(arg)*2)
-                    await message.channel.send('Congrats, you won double your bet!')
+                    addPoints(str(sender), abs(int(arg))*2)
+                    await message.channel.send("```Congrats, you won double your bet!```")
                 else:
-                    await message.channel.send('You lost.')
+                    await message.channel.send("```Sorry, you lost.```")
             else:
                 await message.channel.send('You don\'t have enough points.')
                 
@@ -49,17 +53,7 @@ async def on_message(message):
             addPlayer(str(sender))
             await message.channel.send('You have been added to the players list with a balance of 50 points.')
         await message.channel.send('<@'+ str(message.author.id)+'>, '+ checkBalance(str(sender)))
-                    
 
-
-        
-    '''
-    if message.content == ("nik mok"):
-        await message.channel.send("ou yemak")
-
-    if message.content == "n7abek ghiles":
-        await message.channel.send("ok")
-    '''
-
+                   
 
 client.run(TOKEN)
