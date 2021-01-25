@@ -52,6 +52,3 @@ def enoughBalance(name, amount):
             return True
         else:
             return False
-
-
-#addPoints('nadjib', 100)
